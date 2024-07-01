@@ -1,0 +1,8 @@
+<div class="quote-display">
+    <h2>Generated Quote</h2>
+    <div *ngFor="let item of quoteItems">
+      <p>{{ item.item }} - {{ item.qty }} x ${{ item.price }} = ${{ item.qty * item.price }}</p>
+    </div>
+    <p>Total: ${{ total }}</p>
+  </div>
+  

@@ -1,0 +1,90 @@
+.quote-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .item-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .item-group input {
+    margin-right: 10px;
+  }
+  
+  .item-group button {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .item-group button:hover {
+    background-color: #c0392b;
+  }
+  
+  button[type="submit"], button[type="button"] {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover, button[type="button"]:hover {
+    background-color: #2980b9;
+  }
+  
+  .generated-quote {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .generated-quote .header, .generated-quote .customer-info, .generated-quote .footer {
+    margin-bottom: 20px;
+  }
+  
+  .generated-quote table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .generated-quote table, .generated-quote th, .generated-quote td {
+    border: 1px solid #ddd;
+  }
+  
+  .generated-quote th, .generated-quote td {
+    padding: 8px;
+    text-align: left;
+  }
+  
