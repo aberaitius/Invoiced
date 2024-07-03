@@ -1,90 +1,261 @@
+/* Main container */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Form styling */
 .quote-form {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+/* Generated quote styling */
+.generated-quote {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.toggle-button, .sample-data-button, .clear-button, .add-button, .remove-button, .print-button {
+  margin: 5px 0;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-button {
+  background-color: #dc3545;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.clear-button:hover {
+  background-color: #c82333;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="text"], input[type="date"], input[type="number"], input[type="file"], textarea, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.items-table th, .items-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.items-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.items-table input {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  background-color: #f9f9f9;
+}
+
+.items-table .remove-button {
+  background-color: #dc3545;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.items-table .remove-button:hover {
+  background-color: #c82333;
+}
+
+.invoice-template {
+  font-family: Arial, sans-serif;
+}
+
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.invoice-logo img {
+  max-width: 150px;
+  max-height: 150px;
+  width: auto;
+  height: auto;
+}
+
+.invoice-business {
+  text-align: right;
+}
+
+.invoice-business h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.invoice-business p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.invoice-details {
+  margin-bottom: 20px;
+}
+
+.invoice-details h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.invoice-details p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.invoice-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.invoice-items th, .invoice-items td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.invoice-items th {
+  background-color: #f9f9f9;
+}
+
+.invoice-footer {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.invoice-footer p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.invoice-footer h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
+  #quote-preview, #quote-preview * {
+    visibility: visible;
   }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input {
+  #quote-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 0;
+    margin: 0;
   }
-  
-  .item-group {
-    display: flex;
-    align-items: center;
+
+  #quote-preview .invoice-template {
+    margin: 0;
+    padding: 0;
+  }
+
+  #quote-preview .invoice-header, 
+  #quote-preview .invoice-details, 
+  #quote-preview .invoice-footer {
     margin-bottom: 10px;
   }
-  
-  .item-group input {
-    margin-right: 10px;
+
+  #quote-preview .invoice-logo img {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 10px;
   }
-  
-  .item-group button {
-    background-color: #e74c3c;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
+
+  #quote-preview .invoice-business h1 {
+    font-size: 20px;
   }
-  
-  .item-group button:hover {
-    background-color: #c0392b;
+
+  #quote-preview .invoice-items th, #quote-preview .invoice-items td {
+    padding: 5px;
   }
-  
-  button[type="submit"], button[type="button"] {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
+
+  #quote-preview .invoice-footer h3 {
+    font-size: 16px;
   }
-  
-  button[type="submit"]:hover, button[type="button"]:hover {
-    background-color: #2980b9;
+
+  @page {
+    margin: 10mm;
+    @top-left {
+      content: none;
+    }
+    @top-center {
+      content: none;
+    }
+    @top-right {
+      content: none;
+    }
+    @bottom-left {
+      content: none;
+    }
+    @bottom-center {
+      content: none;
+    }
+    @bottom-right {
+      content: none;
+    }
   }
-  
-  .generated-quote {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-  }
-  
-  .generated-quote .header, .generated-quote .customer-info, .generated-quote .footer {
-    margin-bottom: 20px;
-  }
-  
-  .generated-quote table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .generated-quote table, .generated-quote th, .generated-quote td {
-    border: 1px solid #ddd;
-  }
-  
-  .generated-quote th, .generated-quote td {
-    padding: 8px;
-    text-align: left;
-  }
-  
+}

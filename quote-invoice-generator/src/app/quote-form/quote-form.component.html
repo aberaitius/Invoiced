@@ -1,101 +1,149 @@
-<div class="quote-form">
-    <h2>{{ isInvoice ? 'Create an Invoice' : 'Create a Quote' }}</h2>
-    <button (click)="toggleInvoice()">{{ isInvoice ? 'Switch to Quote' : 'Switch to Invoice' }}</button>
-    <form (ngSubmit)="onSubmit()">
+<div class="container">
+    <div class="quote-form">
+      <h2>{{ isInvoice ? 'Create an Invoice' : 'Create a Quote' }}</h2>
+      <button (click)="toggleInvoice()" class="toggle-button">{{ isInvoice ? 'Switch to Quote' : 'Switch to Invoice' }}</button>
+      <button (click)="populateSampleData()" class="sample-data-button">Populate with Sample Data</button>
+      <button (click)="clearForm()" class="clear-button">Clear</button>
+      
       <div class="form-group">
         <label for="businessName">Business Name</label>
-        <input id="businessName" name="businessName" [(ngModel)]="businessName" required>
+        <input id="businessName" name="businessName" [(ngModel)]="businessName" (input)="onChange()" required>
       </div>
       
       <div class="form-group">
-        <label for="logo">Logo URL</label>
-        <input id="logo" name="logo" [(ngModel)]="logoUrl">
+        <label for="logo">Logo (PNG, JPEG)</label>
+        <input type="file" id="logo" accept="image/png, image/jpeg" (change)="onLogoChange($event)">
       </div>
       
       <div class="form-group">
         <label for="customer">Customer</label>
-        <input id="customer" name="customer" [(ngModel)]="customer" required>
+        <input id="customer" name="customer" [(ngModel)]="customer" (input)="onChange()" required>
       </div>
       
       <div class="form-group">
         <label for="billingAddress">Billing Address</label>
-        <input id="billingAddress" name="billingAddress" [(ngModel)]="billingAddress">
+        <input id="billingAddress" name="billingAddress" [(ngModel)]="billingAddress" (input)="onChange()">
       </div>
   
       <div class="form-group" *ngIf="isInvoice">
         <label for="invoiceNumber">Invoice Number</label>
-        <input id="invoiceNumber" name="invoiceNumber" [(ngModel)]="invoiceNumber">
+        <input id="invoiceNumber" name="invoiceNumber" [(ngModel)]="invoiceNumber" (input)="onChange()">
       </div>
       
       <div class="form-group">
         <label for="date">Date</label>
-        <input id="date" name="date" [(ngModel)]="date" type="date" required>
+        <input id="date" name="date" [(ngModel)]="date" type="date" (input)="onChange()" required>
       </div>
       
       <div class="form-group">
         <label for="paymentTerms">Payment Terms</label>
-        <input id="paymentTerms" name="paymentTerms" [(ngModel)]="paymentTerms">
+        <input id="paymentTerms" name="paymentTerms" [(ngModel)]="paymentTerms" (input)="onChange()">
+      </div>
+      
+      <div class="form-group">
+        <label for="currency">Currency Symbol</label>
+        <select id="currency" name="currency" [(ngModel)]="currency" (change)="onChange()">
+          <option value="$">$ - Dollar</option>
+          <option value="€">€ - Euro</option>
+          <option value="£">£ - Pound</option>
+          <option value="R">R - Rand</option>
+        </select>
       </div>
       
       <div class="form-group">
         <label for="items">Items</label>
-        <div *ngFor="let item of items; let i = index" class="item-group">
-          <label for="item{{i}}">Item {{i+1}}</label>
-          <input id="item{{i}}" name="item{{i}}" [(ngModel)]="item.item" placeholder="Description" required>
-          <input id="qty{{i}}" name="qty{{i}}" [(ngModel)]="item.qty" type="number" placeholder="Qty" required>
-          <input id="price{{i}}" name="price{{i}}" [(ngModel)]="item.price" type="number" placeholder="Price" required>
-          <button type="button" (click)="removeItem(i)">Remove</button>
-        </div>
-        <button type="button" (click)="addItem()">Add Item</button>
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Qty</th>
+              <th>Unit Price</th>
+              <th *ngFor="let col of additionalColumns">{{ col.header }}</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of items; let i = index">
+              <td><input id="item{{i}}" name="item{{i}}" [(ngModel)]="item.item" placeholder="Description" (input)="onChange()" required></td>
+              <td><input id="qty{{i}}" name="qty{{i}}" [(ngModel)]="item.qty" type="number" placeholder="Qty" (input)="onChange()" required></td>
+              <td><input id="price{{i}}" name="price{{i}}" [(ngModel)]="item.price" type="number" step="0.01" placeholder="Price" (input)="onChange()" required></td>
+              <td *ngFor="let col of additionalColumns">
+                <input [(ngModel)]="item.additional[additionalColumns.indexOf(col)]" placeholder="{{ col.header }}" (input)="onChange()">
+              </td>
+              <td><button type="button" (click)="removeItem(i)" class="remove-button">Remove</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <button type="button" (click)="addItem()" class="add-button">Add Item</button>
+      </div>
+  
+      <div class="form-group">
+        <label for="footer">Footer</label>
+        <textarea id="footer" name="footer" [(ngModel)]="footer" (input)="onChange()"></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label for="showColumns">Show/Hide Columns</label>
+        <label><input type="checkbox" [(ngModel)]="showColumns.qty" (change)="onChange()"> Qty</label>
+        <label><input type="checkbox" [(ngModel)]="showColumns.unitPrice" (change)="onChange()"> Unit Price</label>
+        <label><input type="checkbox" [(ngModel)]="showColumns.total" (change)="onChange()"> Total</label>
       </div>
       
       <div class="form-group">
-        <label for="footer">Footer</label>
-        <input id="footer" name="footer" [(ngModel)]="footer">
+        <label for="addColumn">Additional Columns</label>
+        <div *ngFor="let col of additionalColumns; let i = index" class="item-group">
+          <input [(ngModel)]="col.header" placeholder="Column Header" (input)="onChange()" required>
+          <button type="button" (click)="removeColumn(i)" class="remove-button">Remove</button>
+        </div>
+        <button type="button" (click)="addColumn()" class="add-button">Add Column</button>
       </div>
-      
-      <button type="submit">{{ isInvoice ? 'Generate Invoice' : 'Generate Quote' }}</button>
-    </form>
-  </div>
-  
-  <div class="generated-quote">
-    <h2>Generated {{ isInvoice ? 'Invoice' : 'Quote' }}</h2>
-    <div *ngIf="generatedQuote">
-      <div class="header">
-        <img [src]="generatedQuote.logoUrl" alt="Business Logo" *ngIf="generatedQuote.logoUrl">
-        <h2>{{ generatedQuote.businessName }}</h2>
-        <p>Date: {{ generatedQuote.date }}</p>
-        <p *ngIf="generatedQuote.type === 'invoice'">Invoice Number: {{ generatedQuote.invoiceNumber }}</p>
-      </div>
-  
-      <div class="customer-info">
-        <h3>Bill To:</h3>
-        <p>{{ generatedQuote.customer }}</p>
-        <p>{{ generatedQuote.billingAddress }}</p>
-      </div>
-  
-      <table>
-        <thead>
-          <tr>
-            <th>Qty</th>
-            <th>Description</th>
-            <th>Unit Price</th>
-            <th>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of generatedQuote.items">
-            <td>{{ item.qty }}</td>
-            <td>{{ item.item }}</td>
-            <td>{{ item.price }}</td>
-            <td>{{ item.qty * item.price }}</td>
-          </tr>
-        </tbody>
-      </table>
-  
-      <div class="footer">
-        <p>{{ generatedQuote.footer }}</p>
-        <p>Total: {{ generatedQuote.total }}</p>
+      <button type="button" (click)="printQuote()" class="print-button">Print</button>
+    </div>
+    <div class="generated-quote">
+      <div id="quote-preview">
+        <div class="invoice-template">
+          <div class="invoice-header">
+            <div class="invoice-logo" *ngIf="logoUrl">
+              <img [src]="logoUrl" alt="Business Logo">
+            </div>
+            <div class="invoice-business">
+              <h1>{{ businessName }}</h1>
+              <p>{{ billingAddress }}</p>
+            </div>
+          </div>
+          <div class="invoice-details">
+            <h2>Generated {{ isInvoice ? 'Invoice' : 'Quote' }}</h2>
+            <p>Date: {{ date }}</p>
+            <p *ngIf="isInvoice">Invoice Number: {{ invoiceNumber }}</p>
+            <h3>Bill To:</h3>
+            <p>{{ customer }}</p>
+            <p>{{ billingAddress }}</p>
+          </div>
+          <table class="invoice-items">
+            <thead>
+              <tr>
+                <th *ngIf="showColumns.qty">Qty</th>
+                <th>Description</th>
+                <th *ngIf="showColumns.unitPrice">Unit Price</th>
+                <th *ngFor="let col of additionalColumns">{{ col.header }}</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of generatedQuote.items">
+                <td *ngIf="showColumns.qty">{{ item.qty }}</td>
+                <td>{{ item.item }}</td>
+                <td *ngIf="showColumns.unitPrice">{{ currency }}{{ item.price.toFixed(2) }}</td>
+                <td *ngFor="let col of additionalColumns">{{ item.additional[additionalColumns.indexOf(col)] }}</td>
+                <td>{{ currency }}{{ (item.qty * item.price).toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="invoice-footer">
+            <p>{{ footer }}</p>
+            <h3>Total: {{ currency }}{{ generatedQuote.total.toFixed(2) }}</h3>
+          </div>
+        </div>
       </div>
     </div>
   </div>
